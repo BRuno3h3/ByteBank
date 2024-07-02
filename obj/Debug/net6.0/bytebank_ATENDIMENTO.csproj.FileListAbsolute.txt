@@ -57,3 +57,4 @@ C:\Users\Mauricio\OneDrive - SANCON\Área de Trabalho\bytebank_ATENDIMENTO\byteb
 C:\Users\Mauricio\OneDrive - SANCON\Área de Trabalho\bytebank_ATENDIMENTO\bytebank_ATENDIMENTO\obj\Debug\net6.0\bytebank_ATENDIMENTO.pdb
 C:\Users\Mauricio\OneDrive - SANCON\Área de Trabalho\bytebank_ATENDIMENTO\bytebank_ATENDIMENTO\obj\Debug\net6.0\bytebank_ATENDIMENTO.genruntimeconfig.cache
 C:\Users\Mauricio\OneDrive - SANCON\Área de Trabalho\bytebank_ATENDIMENTO\bytebank_ATENDIMENTO\obj\Debug\net6.0\ref\bytebank_ATENDIMENTO.dll
+C:\Users\Mauricio\OneDrive - SANCON\Área de Trabalho\bytebank_ATENDIMENTO\bytebank_ATENDIMENTO\obj\Debug\net6.0\bytebank_ATENDIMENTO.sourcelink.json

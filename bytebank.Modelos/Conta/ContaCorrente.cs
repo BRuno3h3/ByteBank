@@ -1,10 +1,10 @@
 ﻿namespace bytebank.Modelos.Conta
 {
-    public class ContaCorrente : IComparable<ContaCorrente>
-    {
-
-        public Cliente Titular { get; set; }
-        public string Nome_Agencia { get; set; }
+    public class ContaCorrente:IComparable<ContaCorrente>
+    {     
+       
+        public Cliente Titular{get;set;}
+        public string Nome_Agencia{ get; set; }
 
         private int _numero_agencia;
         public int Numero_agencia
@@ -15,7 +15,7 @@
             }
             set
             {
-                if (value <= 0)
+                if(value <= 0)
                 {
 
                 }
@@ -24,7 +24,7 @@
                     _numero_agencia = value;
                 }
             }
-
+        
         }
 
         private string _conta;
@@ -36,7 +36,7 @@
             }
             set
             {
-                if (value == null)
+                if(value == null)
                 {
                     return;
                 }
@@ -69,11 +69,11 @@
 
         public bool Sacar(double valor)
         {
-            if (saldo < valor)
+            if(saldo < valor)
             {
                 return false;
             }
-            if (valor < 0)
+            if(valor < 0)
             {
                 return false;
             }
@@ -93,13 +93,13 @@
             saldo = saldo + valor;
         }
 
-        public bool Transferir(double valor, ContaCorrente destino)
+        public bool Transferir(double valor,ContaCorrente destino)
         {
-            if (saldo < valor)
+            if(saldo < valor)
             {
                 return false;
             }
-            if (valor < 0)
+            if(valor <0)
             {
                 return false;
             }
@@ -113,9 +113,9 @@
 
         public int CompareTo(ContaCorrente? outro)
         {
-            if (outro == null)
+            if (outro==null)
             {
-                return 1;
+              return 1;
             }
             else
             {
@@ -123,7 +123,7 @@
             }
         }
 
-        public ContaCorrente(int numero_agencia, string conta)
+        public ContaCorrente(int numero_agencia,string conta)
         {
             Numero_agencia = numero_agencia;
             Conta = conta;
@@ -140,20 +140,8 @@
             TotalDeContasCriadas += 1;
         }
 
+
         public static int TotalDeContasCriadas { get; set; }
-
-        //public override bool Equals(object? conta)
-        //{
-        //    ContaCorrente outroConta = conta as ContaCorrente;
-
-        //    if (outroConta == null)
-        //    {
-        //        return false;
-        //    }
-
-        //    return Numero_agencia == outroConta.Numero_agencia && 
-        //        Conta.Equals(outroConta.Conta);
-        //}
 
         public override string ToString()
         {
@@ -164,8 +152,11 @@
                    $"Saldo da Conta: {this.Saldo} \n" +
                    $"Titular da Conta: {this.Titular.Nome} \n" +
                    $"CPF do Titular  : {this.Titular.Cpf} \n" +
-                   $"Profissão do Titular: {this.Titular.Profissao}\n\n";
+                   $"Profissão do Titular: { this.Titular.Profissao}\n\n";
+                   
+
         }
+
 
     }
 }

@@ -1,17 +1,18 @@
-using System.Security.Cryptography;
-using bytebank.Modelos.Conta;
+﻿using bytebank.Modelos.Conta;
 using bytebank_ATENDIMENTO.bytebank.Exceptions;
-
 
 namespace bytebank_ATENDIMENTO.bytebank.Atendimento
 {
-    public class ByteBankAtendimento
+    #nullable disable
+    internal  class ByteBankAtendimento
     {
+
         private List<ContaCorrente> _listaDeContas = new List<ContaCorrente>(){
-        new ContaCorrente(95, "123456-X"){Saldo=100, Titular = new Cliente{Cpf="12345678910",Nome = "Bruno Tomasi"}},
-        new ContaCorrente(95, "951258-X"){Saldo=200, Titular = new Cliente{Cpf="09876543210",Nome = "Jaimir Tomasi"}},
-        new ContaCorrente(94, "987321-W"){Saldo=60,  Titular = new Cliente{Cpf="12378945601",Nome = "Daiana Moreira"}}
-};
+          new ContaCorrente(95, "123456-X"){Saldo=100,Titular = new Cliente{Cpf="11111",Nome ="Henrique"}},
+          new ContaCorrente(95, "951258-X"){Saldo=200,Titular = new Cliente{Cpf="22222",Nome ="Pedro"}},
+          new ContaCorrente(94, "987321-W"){Saldo=60,Titular = new Cliente{Cpf="33333",Nome ="Marisa"}}
+        };
+           
 
         public void AtendimentoCliente()
         {
@@ -59,7 +60,7 @@ namespace bytebank_ATENDIMENTO.bytebank.Atendimento
                             PesquisarContas();
                             break;
                         case '6':
-                            EncerrarAtendimento();
+                            EncerrarAplicacao();
                             break;
                         default:
                             Console.WriteLine("Opcao não implementada.");
@@ -71,12 +72,11 @@ namespace bytebank_ATENDIMENTO.bytebank.Atendimento
             {
                 Console.WriteLine($"{excecao.Message}");
             }
-
         }
 
-        private void EncerrarAtendimento()
+        private void EncerrarAplicacao()
         {
-            System.Console.WriteLine("... Encerrando a aplicação ...");
+            Console.WriteLine("... Encerrando a aplicação ...");
             Console.ReadKey();
         }
 
@@ -84,99 +84,79 @@ namespace bytebank_ATENDIMENTO.bytebank.Atendimento
         {
             Console.Clear();
             Console.WriteLine("===============================");
-            Console.WriteLine("===     PESQUISAR CONTAS    ===");
+            Console.WriteLine("===    PESQUISAR CONTAS     ===");
             Console.WriteLine("===============================");
             Console.WriteLine("\n");
-            System.Console.WriteLine("Deseja pesquisar por 1-NÚ MERO DA CONTA ou 2-CPF TITULAR ou 3-AGÊNCIA");
+            Console.Write("Deseja pesquisar por (1) NÚMERO DA CONTA ou (2)CPF TITULAR ou " +
+                " (3) Nº AGÊNCIA : ");
             switch (int.Parse(Console.ReadLine()))
             {
                 case 1:
                     {
-                        System.Console.WriteLine("Informe o número da Conta: ");
+                        Console.Write("Informe o número da Conta: ");
                         string _numeroConta = Console.ReadLine();
-                        ContaCorrente consultaConta = ConsultarPorNumeroConta(_numeroConta);
-                        System.Console.WriteLine(consultaConta.ToString());
+                        ContaCorrente consultaConta = ConsultaPorNumeroConta(_numeroConta);
+                        Console.WriteLine(consultaConta.ToString());
                         Console.ReadKey();
                         break;
                     }
                 case 2:
                     {
-                        System.Console.WriteLine("Informe o número do CPF do titular: ");
+                        Console.Write("Informe o CPF do Titular: ");
                         string _cpf = Console.ReadLine();
-                        ContaCorrente consultaCpf = ConsultarPorCpfTitular(_cpf);
-                        System.Console.WriteLine(consultaCpf.ToString());
+                        ContaCorrente consultaCpf = ConsultaPorCPFTitular(_cpf);
+                        Console.WriteLine(consultaCpf.ToString());
                         Console.ReadKey();
                         break;
                     }
                 case 3:
                     {
-                        System.Console.WriteLine("Informe o número da Agência do titular: ");
+                        Console.Write("Informe o Nº da Agência: ");
                         int _numeroAgencia = int.Parse(Console.ReadLine());
-                        var consultaAgencia = ConsultarPorAgencia(_numeroAgencia);
-                        ExibirListaDeContas(consultaAgencia);
+                        var contasPorAgencia = ConsultaPorAgencia(_numeroAgencia);
+                        ExibirListaDeContas(contasPorAgencia);
                         Console.ReadKey();
                         break;
                     }
                 default:
-                    {
-                        System.Console.WriteLine("Opção não valida");
-                        break;
-                    }
-
+                    Console.WriteLine("Opção não implementada.");
+                    break;
             }
+
         }
 
-        private void ExibirListaDeContas(List<ContaCorrente> consultarPorAgencia)
+        private void ExibirListaDeContas(List<ContaCorrente> contasPorAgencia)
         {
-            if (ConsultarPorAgencia == null)
+            if (contasPorAgencia == null)
             {
-                System.Console.WriteLine("... A Consulta não retornou dados ...");
+                Console.WriteLine(" ... A consulta não retornou dados ...");
             }
             else
             {
-                foreach (var item in consultarPorAgencia)
+                foreach (var item in contasPorAgencia)
                 {
-                    System.Console.WriteLine(item.ToString());
+                    Console.WriteLine(item.ToString());
                 }
             }
         }
 
-        private List<ContaCorrente> ConsultarPorAgencia(int numeroAgencia)
+        private List<ContaCorrente> ConsultaPorAgencia(int numeroAgencia)
         {
             var consulta = (
-
-                from conta in _listaDeContas
-                where conta.Numero_agencia == numeroAgencia
-                select conta).ToList();
-
+                         from conta in _listaDeContas
+                         where conta.Numero_agencia == numeroAgencia
+                         select conta).ToList();
             return consulta;
         }
 
-        private ContaCorrente ConsultarPorCpfTitular(string? cpf)
+        private ContaCorrente ConsultaPorCPFTitular(string? cpf)
         {
-            // // ContaCorrente conta = null;
-            // // for (int i = 0; i < _listaDeContas.Count; i++)
-            // // {
-            // //     if (_listaDeContas[i].Titular.Cpf.Equals(cpf))
-            // //     {
-            // //         conta = _listaDeContas[i];
-            // //     }
-            // // }
-            // return conta;
+
             return _listaDeContas.Where(conta => conta.Titular.Cpf == cpf).FirstOrDefault();
         }
 
-        private ContaCorrente ConsultarPorNumeroConta(string? numeroConta)
+        private ContaCorrente ConsultaPorNumeroConta(string? numeroConta)
         {
-            ContaCorrente conta = null;
-            //     for (int i = 0; i < _listaDeContas.Count; i++)
-            //     {
-            //         if (_listaDeContas[i].Conta.Equals(numeroConta))
-            //         {
-            //             conta = _listaDeContas[i];
-            //         }
-            //     }
-            //     return conta;
             return _listaDeContas.Where(conta => conta.Conta == numeroConta).FirstOrDefault();
         }
 
@@ -231,13 +211,7 @@ namespace bytebank_ATENDIMENTO.bytebank.Atendimento
             }
             foreach (ContaCorrente item in _listaDeContas)
             {
-                // Console.WriteLine("===  Dados da Conta  ===");
-                // Console.WriteLine("Número da Conta : " + item.Conta);
-                // Console.WriteLine("Saldo da Conta : " + item.Saldo);
-                // Console.WriteLine("Titular da Conta: " + item.Titular.Nome);
-                // Console.WriteLine("CPF do Titular  : " + item.Titular.Cpf);
-                // Console.WriteLine("Profissão do Titular: " + item.Titular.Profissao);
-                System.Console.WriteLine(item.ToString);
+                Console.WriteLine(item.ToString());
                 Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 Console.ReadKey();
             }
@@ -252,13 +226,10 @@ namespace bytebank_ATENDIMENTO.bytebank.Atendimento
             Console.WriteLine("===============================");
             Console.WriteLine("\n");
             Console.WriteLine("=== Informe dados da conta ===");
-
             Console.Write("Número da Agência: ");
             int numeroAgencia = int.Parse(Console.ReadLine());
             ContaCorrente conta = new ContaCorrente(numeroAgencia);
-            
-            System.Console.WriteLine($"Numero da conta [NOVA] : {conta.Conta}");
-
+            Console.WriteLine($"Número da conta [NOVA] : {conta.Conta}");
             Console.Write("Informe o saldo inicial: ");
             conta.Saldo = double.Parse(Console.ReadLine());
 
@@ -276,5 +247,6 @@ namespace bytebank_ATENDIMENTO.bytebank.Atendimento
             Console.WriteLine("... Conta cadastrada com sucesso! ...");
             Console.ReadKey();
         }
+
     }
 }
